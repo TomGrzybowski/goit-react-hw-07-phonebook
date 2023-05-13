@@ -1,22 +1,17 @@
-import { addContact, loadContacts } from 'components/redux/actions.js';
+import { loadContacts } from 'components/redux/actions.js';
 import css from './phonebook.module.css';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
-import { getStatusContacts } from 'components/redux/selectors.js';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(getStatusContacts);
+  // const contacts = useSelector(getStatusContacts);
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
-    const id = nanoid();
     e.preventDefault();
-    // dispatch(addContact({  name, number }));
-    // dispatch(addContact({ name, number }));
     setName('');
     setNumber('');
 
@@ -60,10 +55,6 @@ const ContactForm = () => {
     }
 
     createContact({ name, number });
-    // localStorage.setItem(
-    //   'contacts',
-    //   JSON.stringify([...contacts, { id, name, number }])
-    // );
   };
 
   return (
