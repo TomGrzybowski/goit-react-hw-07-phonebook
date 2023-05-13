@@ -1,4 +1,4 @@
-import { addContact } from 'components/redux/actions.js';
+import { addContact, loadContacts } from 'components/redux/actions.js';
 import css from './phonebook.module.css';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,13 +15,55 @@ const ContactForm = () => {
   const handleSubmit = e => {
     const id = nanoid();
     e.preventDefault();
-    dispatch(addContact({ id, name, number }));
+    // dispatch(addContact({  name, number }));
+    // dispatch(addContact({ name, number }));
     setName('');
     setNumber('');
-    localStorage.setItem(
-      'contacts',
-      JSON.stringify([...contacts, { id, name, number }])
-    );
+
+    async function createContact({ name, number }) {
+      async function fetchContacts() {
+        try {
+          const response = await fetch(
+            'https://645edbd59d35038e2d18dbec.mockapi.io/contacts'
+          );
+          const data = await response.json();
+          console.log(data);
+          // setContacts(data);
+
+          if (data) {
+            dispatch(loadContacts(data));
+          }
+        } catch (error) {
+          console.error('Error fetching contacts:', error);
+        }
+      }
+      try {
+        const response = await fetch(
+          'https://645edbd59d35038e2d18dbec.mockapi.io/contacts',
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ name, number }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to create contact: ${response.statusText}`);
+        } else {
+          fetchContacts();
+        }
+
+        console.log('Contact created successfully');
+      } catch (error) {
+        console.error('Error creating contact:', error);
+      }
+    }
+
+    createContact({ name, number });
+    // localStorage.setItem(
+    //   'contacts',
+    //   JSON.stringify([...contacts, { id, name, number }])
+    // );
   };
 
   return (

@@ -14,7 +14,21 @@ const ContactList = () => {
   const dispatch = useDispatch();
 
   const handleDelete = id => {
-    dispatch(deleteContact(id));
+    fetch(`https://645edbd59d35038e2d18dbec.mockapi.io/contacts/${id}`, {
+      method: 'DELETE',
+    })
+      .then(res => {
+        if (res.ok) {
+          dispatch(deleteContact(id));
+          return res.json();
+        }
+      })
+      .then(contact => {
+        console.log(`${contact} has been deleted`);
+      })
+      .catch(error => {
+        console.log(`contact has NOT been deleted`);
+      });
   };
   return (
     <ul>

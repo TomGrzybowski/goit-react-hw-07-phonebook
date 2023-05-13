@@ -38,7 +38,7 @@ export const contactsReducer = (state = contactsInitialState, action) => {
       const updatedContacts = state.status.filter(
         contact => contact.id !== action.payload
       );
-      localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+      // localStorage.setItem('contacts', JSON.stringify(updatedContacts));
       return {
         ...state,
         status: updatedContacts,

@@ -12,14 +12,35 @@ const Phonebook = () => {
 
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   const localStorageContacts = localStorage.getItem('contacts');
+
+  // if (localStorageContacts) {
+  //   dispatch(loadContacts(JSON.parse(localStorageContacts)));
+  // } else {
+  //   localStorage.setItem('contacts', JSON.stringify([]));
+  // }
+  // }, [dispatch]);
+
   useEffect(() => {
-    const localStorageContacts = localStorage.getItem('contacts');
-    if (localStorageContacts) {
-      dispatch(loadContacts(JSON.parse(localStorageContacts)));
-    } else {
-      localStorage.setItem('contacts', JSON.stringify([]));
+    async function fetchContacts() {
+      try {
+        const response = await fetch(
+          'https://645edbd59d35038e2d18dbec.mockapi.io/contacts'
+        );
+        const data = await response.json();
+        console.log(data);
+        // setContacts(data);
+
+        if (data) {
+          dispatch(loadContacts(data));
+        }
+      } catch (error) {
+        console.error('Error fetching contacts:', error);
+      }
     }
-  }, [dispatch]);
+    fetchContacts();
+  });
 
   return (
     <>
