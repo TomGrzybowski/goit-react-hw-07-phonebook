@@ -38,6 +38,7 @@ export const contactsReducer = (state = contactsInitialState, action) => {
       const updatedContacts = state.status.filter(
         contact => contact.id !== action.payload
       );
+
       // localStorage.setItem('contacts', JSON.stringify(updatedContacts));
       return {
         ...state,
@@ -53,14 +54,3 @@ export const contactsReducer = (state = contactsInitialState, action) => {
       return state;
   }
 };
-
-// const targetName = event.target.name;
-// const newContacts = [...contacts];
-
-// const targetIndex = newContacts.findIndex(
-//   element => element.name === targetName
-// );
-
-// newContacts.splice(targetIndex, 1);
-
-// setContacts(newContacts);
