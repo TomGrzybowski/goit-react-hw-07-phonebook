@@ -23,16 +23,24 @@ const ContactForm = () => {
           );
           const data = await response.json();
           console.log(data);
-          // setContacts(data);
 
           if (data) {
             dispatch(loadContacts(data));
+            return data;
           }
         } catch (error) {
           console.error('Error fetching contacts:', error);
         }
       }
+
       try {
+        const contacts = await fetchContacts();
+        const existingContact = contacts.find(contact => contact.name === name);
+        if (existingContact) {
+          alert(`A contact with the name '${name}' already exists.`);
+          return;
+        }
+
         const response = await fetch(
           'https://645edbd59d35038e2d18dbec.mockapi.io/contacts',
           {
