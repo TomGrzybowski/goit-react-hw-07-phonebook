@@ -36,6 +36,7 @@ const ContactForm = () => {
       try {
         const contacts = await fetchContacts();
         const existingContact = contacts.find(contact => contact.name === name);
+        console.log(existingContact);
         if (existingContact) {
           alert(`A contact with the name '${name}' already exists.`);
           return;
